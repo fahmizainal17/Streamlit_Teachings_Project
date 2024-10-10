@@ -1,23 +1,16 @@
-# **📊 Streamlit_Teachings_Project_by_Fahmi 📊**
+# **📊 Streamlit Teachings Project 📊**
 
-<!-- Badge to Visit My Portfolio -->
+<!-- Badge to Visit Project -->
 <div align="center"> 
     <a href="https://fahmizainal-portfolio.streamlit.app/">
-        <img src="https://img.shields.io/badge/Visit%20My%20Portfolio-Streamlit%20App-brightgreen?style=for-the-badge&logo=streamlit" alt="Visit My Portfolio"/>
-    </a>
-</div>
-
-<div align="center">
-    <!-- Image as a link -->
-    <a href="https://img.shields.io/badge/Visit%20My%20Portfolio-Streamlit%20App-brightgreen?style=for-the-badge&logo=streamlit">
-        <img src="assets/Home_Page_Portfolio.png" alt="Home Page Portfolio" style="max-width:100%;">
+        <img src="https://img.shields.io/badge/Visit%20Streamlit%20Teachings%20Project-brightgreen?style=for-the-badge&logo=streamlit" alt="Visit Streamlit Teachings Project"/>
     </a>
 </div>
 
 ---
 
 ## **📋 Overview**
-The **Fahmi Zainal Portfolio Website** is a personal web application designed to showcase my professional experience, achievements, certifications, projects, and educational background. Built using Streamlit, this website serves as an interactive platform to highlight my journey and expertise in data science, software development, and more.
+The **Streamlit Teachings Project** is a web application designed to demonstrate the capabilities of Streamlit for creating interactive data applications. This project serves as a learning platform to explore various features of Streamlit, including layout management, widget usage, and data visualization.
 
 ---
 
@@ -38,10 +31,9 @@ The **Fahmi Zainal Portfolio Website** is a personal web application designed to
 
 ## **🎯 Objectives**
 
-- **🌍 Create an engaging and professional portfolio website** to showcase my skills, experience, and achievements.
-- **📚 Organize content effectively** with a clear structure and user-friendly navigation.
-- **💻 Develop interactive features** using Streamlit components to allow visitors to explore my work dynamically.
-- **🔗 Provide downloadable resources** such as CV, project files, and additional materials.
+- **🌍 Create an engaging learning platform** to explore Streamlit features and capabilities.
+- **📚 Organize content effectively** with clear structure and user-friendly navigation.
+- **💻 Develop interactive components** to enhance user experience and engagement.
 
 ---
 
@@ -49,7 +41,6 @@ The **Fahmi Zainal Portfolio Website** is a personal web application designed to
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Streamlit](https://img.shields.io/badge/Streamlit-%23FF4B4B.svg?style=for-the-badge&logo=Streamlit&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
 ---
 
@@ -59,40 +50,20 @@ The project structure is as follows:
 
 ```plaintext
 .
-├── Dockerfile
-├── License
 ├── README.md
 ├── app
-│   ├── 1_Home_🏠.py
+│   ├── 1_Introduction_🎊.py
 │   ├── component.py
-│   ├── modules
-│   │   ├── Achievements
-│   │   ├── Certification
-│   │   ├── Education
-│   │   ├── Feedback_Discussion
-│   │   ├── Introduction
-│   │   ├── Jobs
-│   │   ├── Materials
-│   │   └── Projects
 │   └── pages
-│       ├── 2_Achievements_🏆.py
-│       ├── 3_Certifications_📊.py
-│       ├── 4_Projects_💼.py
-│       ├── 5_Experience_💻.py
-│       ├── 6_Education_🎓.py
-│       ├── 7_Materials_📚.py
-│       └── 8_Feedback_and_Discussion_💬.py
+│       ├── 2_Continents_Population_🌍.py
+│       └── 3_US_Airport_Traffic_🇺🇸.py
 ├── assets
-│   ├── background_sidebar.jpg
-│   ├── background_video_bird-ezgif.com-optimize.gif
-│   └── tile.gif
+│   ├── Background_Analytics.jpg
+│   └── background_sidebar.jpg
 ├── photos
-│   ├── Achievements
-│   ├── Certifications
-│   ├── Education_Logo
-│   ├── Experience_Company_Logo
-│   ├── My_Photo
-│   └── Projects
+│   └── My_Photo
+│       ├── Background_Photo.png
+│       └── Round_Profile_Photo.jpg
 └── requirements.txt
 ```
 
@@ -100,23 +71,18 @@ The project structure is as follows:
 
 ## **📁 Pages and Components**
 
-- **🏠 Home:** Introduction and personal background.
-- **🏆 Achievements:** Highlights of my professional and personal accomplishments.
-- **📊 Certifications:** Details of certifications and courses completed.
-- **💼 Projects:** Showcases my key projects with descriptions, images, and links to repositories.
-- **💻 Experience:** A summary of my work experience and roles.
-- **🎓 Education:** Educational background and academic achievements.
-- **📚 Materials:** Resources and documents available for download.
-- **💬 Feedback and Discussion:** A form for visitors to leave feedback or engage in discussions.
+- **🎊 Introduction:** Overview of Streamlit and its capabilities.
+- **🌍 Continents Population:** A visualization of population data across different continents.
+- **🇺🇸 US Airport Traffic:** Analysis of airport traffic data in the United States.
 
 ---
 
 ## **📊 Visual Elements**
 
-This portfolio website incorporates various visual elements:
-- **Backgrounds:** Custom images for the sidebar and backgrounds.
-- **Photos and Logos:** Images related to achievements, certifications, education, experience, and projects.
-- **Interactive GIFs:** Animated elements to make the website visually engaging.
+This project incorporates various visual elements:
+- **Backgrounds:** Custom images for an enhanced user experience.
+- **Interactive Charts:** Visualizations to illustrate data insights.
+- **User Input Widgets:** Components that allow users to interact with the application.
 
 ---
 
@@ -124,40 +90,35 @@ This portfolio website incorporates various visual elements:
 
 1. **📂 Setting up the Environment:**
    - Initialize a virtual environment and install dependencies using `requirements.txt`.
-   - Use Docker to containerize the application for easy deployment.
 
 2. **🧩 Developing the Pages:**
    - Create individual Python scripts for each page using Streamlit components.
-   - Integrate navigation and ensure smooth transitions between pages.
 
 3. **🔍 Adding Content and Visuals:**
    - Populate each page with content, images, and interactive elements.
-   - Optimize images and GIFs for performance.
 
-4. **🚀 Deploying the Website:**
-   - Deploy the website using Streamlit sharing or Docker for cloud deployment.
-   - Set up CI/CD pipelines for automated updates and maintenance.
+4. **🚀 Running the Application:**
+   - Use Streamlit to run the application locally for testing and demonstration.
 
 ---
 
 ## **🎉 Conclusion**
 
-This portfolio website serves as a comprehensive showcase of my professional journey, skills, and projects. It is designed to provide an interactive and engaging experience for visitors, allowing them to explore my work and connect with me easily.
+The Streamlit Teachings Project serves as an interactive platform to learn and explore the capabilities of Streamlit. It is designed to provide an engaging experience for users looking to enhance their understanding of data applications.
 
 ---
 
 ## **🔮 Future Enhancements**
 
-- **🌐 Multilingual Support:** Add support for multiple languages to reach a wider audience.
-- **🔧 Enhanced Interactivity:** Implement more interactive elements, such as charts and filters for dynamic content viewing.
-- **💾 Database Integration:** Store feedback and visitor data for further analysis and engagement.
+- **🌐 Advanced Features:** Implement more advanced Streamlit features such as session state and caching.
+- **🗂️ Expanded Content:** Add more tutorials and examples to cover a wider range of use cases.
+- **🔗 User Contributions:** Allow users to contribute their own examples and tutorials.
 
 ---
 
 ## **📚 References**
 
 - [Streamlit Documentation](https://docs.streamlit.io/)
-- [Docker Documentation](https://docs.docker.com/)
 - [Python Documentation](https://docs.python.org/3/)
 
 ---
@@ -174,3 +135,4 @@ You may not:
 - Modify, decompile, or reverse-engineer any portion of this codebase.
 
 By using or accessing any part of this project, you agree to be bound by the terms of this license.
+
