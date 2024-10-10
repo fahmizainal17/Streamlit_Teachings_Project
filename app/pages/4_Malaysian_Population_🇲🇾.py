@@ -11,7 +11,8 @@ st.title("Malaysian Population Data Dashboard 🇲🇾")
 
 # Load the dataset
 URL_DATA = 'https://storage.dosm.gov.my/population/population_malaysia.parquet'
-df_malaysia = pd.read_parquet(URL_DATA)
+df_raw = pd.read_parquet(URL_DATA)
+df_malaysia = df_raw.copy()
 
 # Convert 'date' column to datetime format
 if 'date' in df_malaysia.columns:
@@ -92,7 +93,7 @@ col1, col2, col3 = st.columns([3, 0.7, 3])
 
 with col1:
     st.write("### Raw Dataset")
-    st.write(df_malaysia)
+    st.write(df_raw)
 
 with col2:
     for _ in range(10):  # Adjust this range to increase/decrease vertical space
@@ -182,7 +183,7 @@ with col7:
         plt.xticks(rotation=45)
         plt.grid(True)
         st.pyplot(fig2)
-        
+
 # Prediction section
 st.header("Predict Future Population Growth")
 
