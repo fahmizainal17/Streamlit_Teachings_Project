@@ -1,9 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-st.title("Analytics Dashboard")
-
-
+st.title("Analytics Dashboard 📊")
 
 df = pd.read_csv("https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv")
 
