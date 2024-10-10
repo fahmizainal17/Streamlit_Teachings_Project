@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import pydeck as pdk
 
-# United States Airport Traffic Analysis
+# Section 2: United States Airport Traffic Analysis
 st.title("United States Airport Traffic Analysis 🛩️")
 
 # Load the US airport dataset
