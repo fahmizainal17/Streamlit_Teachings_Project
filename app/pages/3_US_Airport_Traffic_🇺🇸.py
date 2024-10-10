@@ -110,4 +110,4 @@ df_state_traffic = us_airport_df.groupby('state_full')['cnt'].sum().reset_index(
 st.bar_chart(df_state_traffic.set_index('state_full'))
 
 # Final Remarks
-st.write("Explore both global and US-specific data interactively with this dashboard. Adjust the selections to view data trends and visualize traffic patterns dynamically.")
+st.write("Explore both the US-specific data interactively with this dashboard. Adjust the selections to view data trends and visualize traffic patterns dynamically.")
