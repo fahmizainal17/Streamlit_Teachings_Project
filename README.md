@@ -2,7 +2,7 @@
 
 <!-- Badge to Visit Project -->
 <div align="center"> 
-    <a href="https://fahmizainal-portfolio.streamlit.app/">
+    <a href="https://web-app-teachings-project.streamlit.app/">
         <img src="https://img.shields.io/badge/Visit%20Streamlit%20Teachings%20Project-brightgreen?style=for-the-badge&logo=streamlit" alt="Visit Streamlit Teachings Project"/>
     </a>
 </div>
