@@ -1,4 +1,4 @@
-# **📊 Fahmi Zainal Portfolio Website vsdikvsdkjvdsk📊**
+# **📊 Fahmi Zainal Portfolio Website 📊**
 
 <!-- Badge to Visit My Portfolio -->
 <div align="center"> 
