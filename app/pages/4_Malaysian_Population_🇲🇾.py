@@ -15,7 +15,7 @@ df_malaysia = pd.read_parquet(URL_DATA)
 
 # Convert 'date' column to datetime format
 if 'date' in df_malaysia.columns:
-    df_malaysia['date'] = pd.to_datetime(df_malaysia['date'])
+    df_malaysia['date'] = pd.to_datetime(df_malaysia['date'], errors='coerce')
 
 # Clean and classify ethnicity
 def classify_ethnicity(ethnicity):
@@ -67,6 +67,10 @@ df_malaysia = df_malaysia.rename(columns={
     'population': 'Sample_Population'
 })
 
+# Check for any NaT values after conversion
+if df_malaysia['Date'].isna().any():
+    st.warning("There are some NaT values in the Date column after conversion. Please check the data.")
+
 # Sidebar filters for interaction
 st.sidebar.header("Filter the Data:")
 sex_filter = st.sidebar.multiselect("Select Gender:", options=df_malaysia['Gender'].unique(), default=df_malaysia['Gender'].unique())
@@ -91,11 +95,9 @@ with col1:
     st.write(df_malaysia)
 
 with col2:
-    # Create a placeholder to center the image vertically
     for _ in range(10):  # Adjust this range to increase/decrease vertical space
         st.text("")
     image = Image.open('assets/After_Cleaning.png')  # Load the uploaded image
-    # Display the image
     st.image(image, use_column_width=True)
 
 with col3:
@@ -147,47 +149,132 @@ if 'Date' in filtered_data.columns and 'Sample_Population' in filtered_data.colu
     plt.grid(True)
     st.pyplot(fig)
 
-# Compare population growth by ethnicity and age group
-st.write("### Compare Population Growth by Ethnicity and Age Group")
-ethnicity_age_trend = filtered_data.groupby(['Date', 'Ethnicity', 'Age_Group'])['Sample_Population'].sum().reset_index()
-fig, ax = plt.subplots(figsize=(12, 6))
-sns.lineplot(data=ethnicity_age_trend, x='Date', y='Sample_Population', hue='Ethnicity', style='Age_Group', markers=True, dashes=False, ax=ax)
-plt.title("Population Growth by Ethnicity and Age Group")
-plt.xlabel("Year")
-plt.ylabel("Population")
-plt.xticks(rotation=45)
-plt.grid(True)
-st.pyplot(fig)
+# Population trend by age group and ethnicity arranged in columns
+st.write("### Population Growth Trend by Age Group and Ethnicity")
 
-# Future population growth prediction
-st.write("### Predict Future Population Growth")
-future_years = st.number_input("Enter the number of years to predict:", min_value=1, max_value=20, value=5)
+# Create columns for the two graphs
+col6, col7 = st.columns(2)
 
-# Preparing data for prediction
-population_data = filtered_data.groupby(filtered_data['Date'].dt.year)['Sample_Population'].sum().reset_index()
-X = population_data['Date'].dt.year.values.reshape(-1, 1)
-y = population_data['Sample_Population'].values
+# Population trend by age group
+with col6:
+    st.subheader("Population Growth Trend by Age Group")
+    if 'Date' in filtered_data.columns and 'Sample_Population' in filtered_data.columns:
+        age_group_trend = filtered_data.groupby(['Date', 'Age_Group'])['Sample_Population'].sum().reset_index()
+        fig1, ax1 = plt.subplots(figsize=(10, 6))
+        sns.lineplot(data=age_group_trend, x='Date', y='Sample_Population', hue='Age_Group', markers=True, dashes=False, ax=ax1)
+        plt.title("Population Growth by Age Group")
+        plt.xlabel("Year")
+        plt.ylabel("Population")
+        plt.xticks(rotation=45)
+        plt.grid(True)
+        st.pyplot(fig1)
 
-# Train a linear regression model
-model = LinearRegression()
-model.fit(X, y)
+# Population trend by ethnicity
+with col7:
+    st.subheader("Population Growth Trend by Ethnicity")
+    if 'Date' in filtered_data.columns and 'Sample_Population' in filtered_data.columns:
+        ethnicity_trend = filtered_data.groupby(['Date', 'Ethnicity'])['Sample_Population'].sum().reset_index()
+        fig2, ax2 = plt.subplots(figsize=(10, 6))
+        sns.lineplot(data=ethnicity_trend, x='Date', y='Sample_Population', hue='Ethnicity', markers=True, dashes=False, ax=ax2)
+        plt.title("Population Growth by Ethnicity")
+        plt.xlabel("Year")
+        plt.ylabel("Population")
+        plt.xticks(rotation=45)
+        plt.grid(True)
+        st.pyplot(fig2)
+        
+# Prediction section
+st.header("Predict Future Population Growth")
 
-# Predict future population
-future_X = np.array([population_data['Date'].dt.year.max() + i for i in range(1, future_years + 1)]).reshape(-1, 1)
-future_pred = model.predict(future_X)
+# Input fields for prediction
+start_year = st.number_input("Select Start Year:", min_value=int(df_malaysia['Date'].dt.year.min()), max_value=2124, value=int(df_malaysia['Date'].dt.year.max()), step=1)
+end_year = st.number_input("Select End Year:", min_value=start_year + 1, max_value=2124, value=start_year + 10, step=1)
 
-# Plot future predictions
-fig, ax = plt.subplots(figsize=(10, 6))
-ax.plot(population_data['Date'].dt.year, y, marker='o', label='Historical Population')
-ax.plot(future_X, future_pred, marker='o', linestyle='--', color='orange', label='Predicted Population')
-plt.title("Future Population Growth Prediction")
-plt.xlabel("Year")
-plt.ylabel("Population")
-plt.grid(True)
-plt.legend()
-st.pyplot(fig)
+# Multi-select for ethnicity and age group
+selected_age_groups = st.multiselect("Select Age Groups for Prediction:", options=df_malaysia['Age_Group'].unique())
+selected_ethnicities = st.multiselect("Select Ethnicities for Prediction:", options=df_malaysia['Ethnicity'].unique())
 
-# Additional insights
-st.write("### Insights")
-st.write("- Analyze how the population is distributed across different age groups, genders, and ethnicities.")
-st.write("- The dashboard provides insights into historical population trends and future predictions.")
+# Create columns for the two graphs
+col8, col9 = st.columns(2)
+
+# Predict future population for selected age groups
+with col8:
+    if selected_age_groups:  # Check if any age groups are selected
+        # Prepare filtered data
+        filtered_age_group_data = filtered_data[filtered_data['Age_Group'].isin(selected_age_groups)]
+        
+        # Prepare data for prediction
+        X_age = filtered_age_group_data['Date'].dt.year.values.reshape(-1, 1)
+        y_age = filtered_age_group_data['Sample_Population'].values
+
+        # Train linear regression model
+        model_age = LinearRegression()
+        model_age.fit(X_age, y_age)
+
+        # Predict future population
+        future_years = np.arange(start_year, end_year + 1).reshape(-1, 1)
+        predicted_population_age = model_age.predict(future_years)
+
+        # Plot the prediction for age groups
+        fig_age, ax_age = plt.subplots(figsize=(10, 6))
+        
+        # Plot historical data with labels for selected age groups
+        for age_group in selected_age_groups:
+            age_group_data = filtered_age_group_data[filtered_age_group_data['Age_Group'] == age_group]
+            ax_age.plot(age_group_data['Date'].dt.year, age_group_data['Sample_Population'], marker='o', linestyle='-', label=f'Historical: {age_group}')
+        
+        # Plot predicted data
+        ax_age.plot(future_years, predicted_population_age, label='Predicted Population', color='orange', marker='o', linestyle='--')
+        
+        plt.title(f"Population Growth Prediction for Selected Age Groups: {', '.join(selected_age_groups)}")
+        plt.xlabel("Year")
+        plt.ylabel("Population")
+        plt.xticks(rotation=45)
+        plt.grid(True)
+        plt.legend()
+        st.pyplot(fig_age)
+    else:
+        st.warning("Please select at least one Age Group for prediction.")
+
+# Predict future population for selected ethnicities
+with col9:
+    if selected_ethnicities:  # Check if any ethnicities are selected
+        # Prepare filtered data
+        filtered_ethnicity_data = filtered_data[filtered_data['Ethnicity'].isin(selected_ethnicities)]
+        
+        # Prepare data for prediction
+        X_ethnicity = filtered_ethnicity_data['Date'].dt.year.values.reshape(-1, 1)
+        y_ethnicity = filtered_ethnicity_data['Sample_Population'].values
+
+        # Train linear regression model
+        model_ethnicity = LinearRegression()
+        model_ethnicity.fit(X_ethnicity, y_ethnicity)
+
+        # Predict future population
+        future_years = np.arange(start_year, end_year + 1).reshape(-1, 1)
+        predicted_population_ethnicity = model_ethnicity.predict(future_years)
+
+        # Plot the prediction for ethnicities
+        fig_ethnicity, ax_ethnicity = plt.subplots(figsize=(10, 6))
+        
+        # Plot historical data with labels for selected ethnicities
+        for ethnicity in selected_ethnicities:
+            ethnicity_data = filtered_ethnicity_data[filtered_ethnicity_data['Ethnicity'] == ethnicity]
+            ax_ethnicity.plot(ethnicity_data['Date'].dt.year, ethnicity_data['Sample_Population'], marker='o', linestyle='-', label=f'Historical: {ethnicity}')
+
+        # Plot predicted data
+        ax_ethnicity.plot(future_years, predicted_population_ethnicity, label='Predicted Population', color='orange', marker='o', linestyle='--')
+        
+        plt.title(f"Population Growth Prediction for Selected Ethnicities: {', '.join(selected_ethnicities)}")
+        plt.xlabel("Year")
+        plt.ylabel("Population")
+        plt.xticks(rotation=45)
+        plt.grid(True)
+        plt.legend()
+        st.pyplot(fig_ethnicity)
+    else:
+        st.warning("Please select at least one Ethnicity for prediction.")
+
+# Footer for the app
+st.write("### Data Source:")
+st.write("[Department of Statistics Malaysia](https://www.dosm.gov.my/)")
