@@ -1,5 +1,8 @@
 import streamlit as st
 import pandas as pd
+from component import page_style
+
+page_style()
 
 # Title and Introduction
 st.title("Analytics Dashboard 📊")
