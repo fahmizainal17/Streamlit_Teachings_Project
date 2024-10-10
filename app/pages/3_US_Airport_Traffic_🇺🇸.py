@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 import pydeck as pdk
+from component import page_style
+
+page_style()
 
 # Section 2: United States Airport Traffic Analysis
 st.title("United States Airport Traffic Analysis 🛩️")

@@ -4,6 +4,8 @@ from component import page_style
 
 page_style()
 
+st.snow()
+
 # Title and Introduction
 st.title("Analytics Dashboard 📊")
 

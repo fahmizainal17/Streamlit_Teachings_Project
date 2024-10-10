@@ -1,40 +1,69 @@
 import streamlit as st
 from PIL import Image
+import base64
+
+def get_base64_of_bin_file(bin_file):
+    """
+    Function to encode local file (image or gif) to base64 string
+    """
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
 
 def page_style():
-    custom_style = """
-    <style>
-        body {
-            background-color: #f0f0f5;  /* Light gray background for the body */
-            color: #333;  /* Dark gray text color */
-            font-family: 'Arial', sans-serif;  /* Font style for the text */
-        }
-        .sidebar .sidebar-content {
-            background-color: #ffffff;  /* White background for the sidebar */
-            padding: 20px;  /* Padding for the sidebar */
-            border-radius: 10px;  /* Rounded corners for the sidebar */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Subtle shadow for depth */
-        }
-        h1, h2, h3 {
-            font-weight: bold;  /* Bold headings */
-            color: #4CAF50;  /* Green color for headings */
-        }
-        button {
-            background-color: #4CAF50;  /* Green button background */
-            color: white;  /* White text for buttons */
-            border: none;  /* No border for buttons */
-            padding: 10px 20px;  /* Button padding */
-            text-align: center;  /* Centered text */
-            font-size: 16px;  /* Button font size */
-            margin: 4px 2px;  /* Margin for buttons */
-            cursor: pointer;  /* Pointer cursor on hover */
-            border-radius: 8px;  /* Rounded corners for buttons */
-            transition: background-color 0.3s;  /* Smooth background color transition */
-        }
-        button:hover {
-            background-color: #45a049;  /* Darker green on hover */
-        }
-    </style>
+    # Encode the local GIF to base64
+
+    sidebar_background_base64 = get_base64_of_bin_file('assets/Background_Analytics.jpg')
+
+    # Apply custom styles, including the sidebar background GIF
+    custom_style = f"""
+        <style>
+            #MainMenu {{visibility: hidden;}}
+            footer {{visibility: hidden;}}
+            header {{visibility: hidden;}}
+
+            /* Sidebar background with a dark overlay */
+            [data-testid="stSidebar"] > div:first-child {{
+                background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), 
+                                  url("data:image/jpeg;base64,{sidebar_background_base64}");
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-attachment: local;
+            }}
+
+            [data-testid="stHeader"] {{
+                background: rgba(0,0,0,0);
+            }}
+
+            [data-testid="stToolbar"] {{
+                right: 2rem;
+            }}
+
+            .stButton>button {{
+                background-color: #4CAF50; 
+                color: white !important;
+            }}
+
+            .stDownloadButton>button {{
+                background-color: #4CAF50; 
+                color: white !important;
+            }}
+
+            /* Certification Card Styles */
+            .cert-card {{
+                background-color: #333333;
+                color: white;
+                padding: 15px;
+                margin: 10px 0;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }}
+
+            .cert-card:hover {{
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            }}
+        </style>
     """
 
     # Set the page configuration
@@ -48,43 +77,51 @@ def page_style():
     image = Image.open('photos/My_Photo/Background_Photo.png')
     st.image(image)
 
+    # Sidebar content
     with st.sidebar:
-        # Sidebar Title
-        st.title("About Me")
-        
-        # Display Profile Picture
-        profile_pic = Image.open('photos/My_Photo/Round_Profile_Photo.jpg')  # Replace with your image path
-        st.image(profile_pic, width=150)  # Display the profile picture with a width of 150px
+        # Display the round profile picture at the top of the sidebar
+        st.image("photos/My_Photo/Round_Profile_Photo.jpg", width=150)
 
-        # Add a brief description
-        st.write("""
-        Hi! I'm Fahmi Zainal, a passionate learner in the field of artificial intelligence and business administration. 
-        I'm excited to share my projects and connect with others in the community!
-        """)
-
-        # Add links to social media or other resources
-        st.subheader("Connect with Me")
         st.markdown("""
-        - [LinkedIn](https://www.linkedin.com/in/your-linkedin-profile)  <!-- Replace with your actual LinkedIn URL -->
-        - [GitHub](https://github.com/your-github-profile)  <!-- Replace with your actual GitHub URL -->
+            ## Created By: Fahmi Zainal
+            
         """)
 
-        # Music button
-        st.markdown(new_tab_button, unsafe_allow_html=True)
-
-        # Add a section for additional resources or interests
-        st.subheader("Interests")
-        st.write("""
-        - Machine Learning
-        - Web Development
-        - Data Visualization
-        """)
-
-        # Add a button to open your portfolio
         st.markdown("""
-        <a href="https://your-portfolio-link.com" target="_blank">
-            <button>
-                View My Portfolio
+            ## Skills You Will Learn 
+            - **Analysis and Visualization**
+            - **Streamlit Dashboarding**
+            - **Python (Programming Language)**
+            - **Streamlit Web Development**
+        """)
+
+        # HTML and JavaScript to open YouTube in a new tab
+        new_tab_button = """
+        <a href="https://www.youtube.com/watch?v=VeUiVCb7ZmQ?si=GzSBUP3zs1hEkigI" target="_blank">
+            <button style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; text-align: center; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 8px;">
+                🎵 Play Music while Reading
             </button>
         </a>
+        """
+        st.markdown(new_tab_button, unsafe_allow_html=True)
+
+        # LinkedIn button with logo
+        linkedin_url = "https://www.linkedin.com/in/fahmizainal17"
+        st.markdown(f"""
+            <a href="{linkedin_url}" target="_blank">
+                <button style="background-color: #0077B5; color: white; border: none; padding: 10px 20px; text-align: center; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 8px;">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/LinkedIn_icon.svg/1200px-LinkedIn_icon.svg.png" width="16" style="vertical-align: middle;"> Connect on LinkedIn
+                </button>
+            </a>
         """, unsafe_allow_html=True)
+
+        # GitHub button with logo
+        github_url = "https://github.com/fahmizainal17"
+        st.markdown(f"""
+            <a href="{github_url}" target="_blank">
+                <button style="background-color: #333; color: white; border: none; padding: 10px 20px; text-align: center; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 8px;">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="16" style="vertical-align: middle;"> Check out my GitHub
+                </button>
+            </a>
+        """, unsafe_allow_html=True)
+
