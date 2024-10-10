@@ -5,7 +5,7 @@ from component import page_style
 page_style()
 
 # Title
-st.title("Analytics Dashboard 📊")
+st.title("Continents Population Data Analysis 🌍")
 
 # Load the dataset
 df = pd.read_csv("https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv")
