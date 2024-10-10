@@ -1,4 +1,4 @@
-# **📊 Streamlit_Teachings_Project_some_update 📊**
+# **📊 Streamlit_Teachings_Project_by_Fahmi 📊**
 
 <!-- Badge to Visit My Portfolio -->
 <div align="center"> 
