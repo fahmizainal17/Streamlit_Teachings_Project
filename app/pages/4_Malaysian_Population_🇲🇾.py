@@ -3,6 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from PIL import Image
+from sklearn.linear_model import LinearRegression
+import numpy as np
 
 # Set up the Streamlit app title
 st.title("Malaysian Population Data Dashboard 🇲🇾")
@@ -145,8 +147,47 @@ if 'Date' in filtered_data.columns and 'Sample_Population' in filtered_data.colu
     plt.grid(True)
     st.pyplot(fig)
 
+# Compare population growth by ethnicity and age group
+st.write("### Compare Population Growth by Ethnicity and Age Group")
+ethnicity_age_trend = filtered_data.groupby(['Date', 'Ethnicity', 'Age_Group'])['Sample_Population'].sum().reset_index()
+fig, ax = plt.subplots(figsize=(12, 6))
+sns.lineplot(data=ethnicity_age_trend, x='Date', y='Sample_Population', hue='Ethnicity', style='Age_Group', markers=True, dashes=False, ax=ax)
+plt.title("Population Growth by Ethnicity and Age Group")
+plt.xlabel("Year")
+plt.ylabel("Population")
+plt.xticks(rotation=45)
+plt.grid(True)
+st.pyplot(fig)
+
+# Future population growth prediction
+st.write("### Predict Future Population Growth")
+future_years = st.number_input("Enter the number of years to predict:", min_value=1, max_value=20, value=5)
+
+# Preparing data for prediction
+population_data = filtered_data.groupby(filtered_data['Date'].dt.year)['Sample_Population'].sum().reset_index()
+X = population_data['Date'].dt.year.values.reshape(-1, 1)
+y = population_data['Sample_Population'].values
+
+# Train a linear regression model
+model = LinearRegression()
+model.fit(X, y)
+
+# Predict future population
+future_X = np.array([population_data['Date'].dt.year.max() + i for i in range(1, future_years + 1)]).reshape(-1, 1)
+future_pred = model.predict(future_X)
+
+# Plot future predictions
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.plot(population_data['Date'].dt.year, y, marker='o', label='Historical Population')
+ax.plot(future_X, future_pred, marker='o', linestyle='--', color='orange', label='Predicted Population')
+plt.title("Future Population Growth Prediction")
+plt.xlabel("Year")
+plt.ylabel("Population")
+plt.grid(True)
+plt.legend()
+st.pyplot(fig)
+
 # Additional insights
 st.write("### Insights")
 st.write("- Analyze how the population is distributed across different age groups, genders, and ethnicities.")
-st.write("- Explore the population growth trends over time and identify patterns or anomalies.")
-st.write("- Investigate the impact of different demographics on the overall population distribution.")
+st.write("- The dashboard provides insights into historical population trends and future predictions.")
