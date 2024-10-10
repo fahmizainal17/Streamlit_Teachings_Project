@@ -89,7 +89,7 @@ filtered_data = df_malaysia[
 
 # Display raw and filtered datasets side by side
 st.write("### Dataset Comparison")
-col1, col2, col3 = st.columns([3, 0.7, 3])
+col1, col2, col3 = st.columns([4, 1, 8])
 
 with col1:
     st.write("### Raw Dataset")
