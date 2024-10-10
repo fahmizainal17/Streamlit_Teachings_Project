@@ -1,4 +1,4 @@
-# **📊 Fahmi Zainal Portfolio Website 📊**
+# **📊 Streamlit_Teachings_Project 📊**
 
 <!-- Badge to Visit My Portfolio -->
 <div align="center"> 
