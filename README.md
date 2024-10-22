@@ -1,4 +1,4 @@
-# **📊 Streamlit Teachings Project 📊**
+# **📊 Streamlit Teachings Project 📊** [![wakatime](https://wakatime.com/badge/user/ae82a943-125e-489a-a656-e35fe84d587b/project/1fcf8481-92d7-4129-96fc-738a812fc5ce.svg)](https://wakatime.com/badge/user/ae82a943-125e-489a-a656-e35fe84d587b/project/1fcf8481-92d7-4129-96fc-738a812fc5ce)
 
 <!-- Badge to Visit Project -->
 <div align="center"> 
